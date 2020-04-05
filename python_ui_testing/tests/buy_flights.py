@@ -10,19 +10,19 @@ class BuyFlightsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.driver = webdriver.Chrome(
-            executable_path="C:/Users/miguel.bolivar/Documents/Personal/EAFIT/Semestre 2/Validación y verificación/Taller automatización/api_authors_book/ui_testing/drivers/chromedriver.exe")
+            executable_path="./python_ui_testing/drivers/chromedriver.exe")
         cls.driver.maximize_window()
 
     # Login
-    def test_go_url(self):
-        self.driver.get("http://newtours.demoaut.com/")
+    def test_go_url(self, url):
+        self.driver.get(url)
 
     def test_login(self, username, password):
         self.driver.find_element_by_name("userName").send_keys(username)
         self.driver.find_element_by_name("password").send_keys(password)
         self.driver.find_element_by_name("login").click()
 
-    def test_image_signin(self):
+    def test_image_flight_finder(self):
         image = self.driver.find_element_by_xpath("//img[contains(@src,'mast_flightfinder.gif')]").is_displayed()
         self.assertTrue(image)
 
@@ -63,6 +63,10 @@ class BuyFlightsTest(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_name("findFlights").click()
 
+    def test_image_select_flight(self):
+        image = self.driver.find_element_by_xpath("//img[contains(@src,'/images/masts/mast_selectflight.gif')]").is_displayed()
+        self.assertTrue(image)
+
 
     # Seleccionar vuelo
     def test_select_departure_return_flights(self, departure, returnn):
@@ -76,11 +80,18 @@ class BuyFlightsTest(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_name("reserveFlights").click()
 
+    def test_image_book_a_flight(self):
+        image = self.driver.find_element_by_xpath("//img[contains(@src,'/images/masts/mast_book.gif')]").is_displayed()
+        self.assertTrue(image)
+
 
     #Reservar vuelo
-    def test_enter_personal_data(self, name, lastname, meal):
+    def test_enter_personal_data(self, name, lastname, meal, name2, lastname2):
         self.driver.find_element_by_name("passFirst0").send_keys(name)
         self.driver.find_element_by_name("passLast0").send_keys(lastname)
+
+        self.driver.find_element_by_name("passFirst1").send_keys(name2)
+        self.driver.find_element_by_name("passLast1").send_keys(lastname2)
 
         if meal == "Low Calorie":
             self.driver.find_element_by_xpath("//select[@name='pass.0.meal']/option[@value='LCML']").click()
@@ -146,6 +157,9 @@ class BuyFlightsTest(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_name("buyFlights").click()
 
+    def test_image_flight_confirmation(self):
+        image = self.driver.find_element_by_xpath("//img[contains(@src,'/images/masts/mast_confirmation.gif')]").is_displayed()
+        self.assertTrue(image)
 
 
     # Confirmar reseva
@@ -153,14 +167,9 @@ class BuyFlightsTest(unittest.TestCase):
         time.sleep(2)
         self.driver.find_element_by_xpath("//img[contains(@src,'/images/forms/home.gif')]").click()
 
-    def test_image_signout(self):
-        image = self.driver.find_element_by_xpath("//img[contains(@src,'/images/btn_signin.gif')]").is_displayed()
+    def test_image_home(self):
+        image = self.driver.find_element_by_xpath("//img[contains(@src,'/images/hdr_findflight.gif')]").is_displayed()
         self.assertTrue(image)
-
-    # Logout
-    def test_logout(self):
-        self.driver.find_element_by_link_text("SIGN-OFF")
-        time.sleep(4)
 
 
     # Este método se ejecuta al final y cierra el navegador

@@ -5,10 +5,10 @@ test = BuyFlightsTest()
 
 
 # LOGIN
-@given(u'Estoy en la página de Mercury Tours')
-def step_impl(context):
+@given(u'Estoy en la página de Mercury Tours: "{url}"')
+def step_impl(context, url):
     test.setUpClass()
-    test.test_go_url()
+    test.test_go_url(url)
 
 
 @when(u'Ingreso un usuario "{user}" y un password "{password}"')
@@ -18,7 +18,7 @@ def step_impl(context, user, password):
 
 @then(u'El sistema me autentica como usuario legitimo')
 def step_impl(context):
-    test.test_image_signin()
+    test.test_image_flight_finder()
 
 
 
@@ -76,8 +76,7 @@ def step_impl(context):
 
 @then(u'El sistema busca los vuelos')
 def step_impl(context):
-    print("El sistema busca los vuelos")
-    pass
+    test.test_image_select_flight()
 
 
 
@@ -100,8 +99,7 @@ def step_impl(context):
 
 @then(u'El sistema selecciona los vuelos')
 def step_impl(context):
-    print("El sistema selecciona los vuelos")
-    pass
+    test.test_image_book_a_flight()
 
 
 
@@ -113,9 +111,10 @@ def step_impl(context):
 
 
 @when(u'Ingreso el nombre "{name}" y el apellido "{lastname}". '
-      u'Selecciono la comida "{meal}"')
-def step_impl(context, name, lastname, meal):
-    test.test_enter_personal_data(name, lastname, meal)
+      u'Selecciono la comida "{meal}". '
+      u'Ingreso el nombre y apellido del pasajero 2 "{name2}" y "{lastname2}"')
+def step_impl(context, name, lastname, meal, name2, lastname2):
+    test.test_enter_personal_data(name, lastname, meal, name2, lastname2)
 
 
 @when(u'Selecciono la tarjeta de crédito "{credit_card}". '
@@ -156,8 +155,7 @@ def step_impl(context):
 
 @then(u'El sistema reserva el vuelo')
 def step_impl(context):
-    print("El sistema reserva el vuelo")
-    pass
+    test.test_image_flight_confirmation()
 
 
 
@@ -175,6 +173,7 @@ def step_impl(context):
 
 @then(u'el sistema vuleve a la página de inicio')
 def step_impl(context):
-    test.test_logout()
+    test.test_image_home()
+    test.tearDownClass()
 
 
